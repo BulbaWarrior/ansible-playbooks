@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+
+    - name: Upgrade packages
+      apt: update_cache=yes upgrade=yes
+
+    - name: Install LDAP related packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: ['libnss-ldap', 'libpam-ldap', 'nscd']
+
+    - name: Copy nsswitch config
+      copy: dest=/etc/nsswitch.conf src=nsswitch.conf
+    
+    - name: Copy common-session config
+      copy: dest=/etc/pam.d/common-session src=common-session
+    
+    - name: Copy LDAP configs
+      copy: dest=/etc/ src=ldap_config/
+
+    - name: Restart services
+      service: name={{ item }} state=restarted
+      loop: ['libnss-ldap', 'nscd']
