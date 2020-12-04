@@ -42,6 +42,8 @@
       docker_container:
         name: "{{ default_container_name }}{{ item }}"
         image: "{{ default_container_image }}"
-        command: "{{ default_container_command }}"
-        state: present
+        detach: yes
+        published_ports: "{{ default_container_published_ports }}"
+        # command: "{{ default_container_command }}"
+        state: started
       with_sequence: count={{ create_containers }}

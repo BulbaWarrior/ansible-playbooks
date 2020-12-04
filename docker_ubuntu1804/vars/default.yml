@@ -1,5 +1,5 @@
 ---
-create_containers: 4
+create_containers: 1
 default_container_name: docker
-default_container_image: ubuntu
-default_container_command: sleep 1d
+default_container_image: r3dw0lf/secondapp
+default_container_published_ports: ["8000:85"]
